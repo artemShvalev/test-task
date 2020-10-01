@@ -1,13 +1,15 @@
 <template>
+  <div>
     
+  </div>
 </template>
 
 <script>
-  export default {
-    name: 'MainPaige'
-  };
+export default {
+  name: 'MainPaige',
+};
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
