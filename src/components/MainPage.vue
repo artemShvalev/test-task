@@ -14,7 +14,12 @@
           </div>
         </div>
         <div class="main__catalog-input">
-          <input type="search" name="search" placeholder="Хочу найти">
+          <autocomplete :search="search"
+                        class="autocomplete"
+                        auto-select
+                        :debounce-time="500"
+                        :get-result-value="getResultValue"
+                        type="search" name="search" placeholder="Хочу найти"></autocomplete>
           <img class="main__img-search" src="@/assets/search.svg" alt="icon for search">
         </div>
         <div class="main__catalog-list">
@@ -30,8 +35,43 @@
 </template>
 
 <script>
+import Autocomplete from '@trevoreyre/autocomplete-vue';
+
+const wikiUrl = 'https://en.wikipedia.org';
+const params = 'action=query&list=search&format=json&origin=*';
+
 export default {
   name: 'MainPage',
+  components: { Autocomplete },
+  data() {
+    return {
+      search(input) {
+        const url = `${wikiUrl}/w/api.php?${params}&srsearch=${encodeURI(input)}`;
+
+        // eslint-disable-next-line consistent-return
+        return new Promise((resolve) => {
+          if (input.length < 3) {
+            return resolve([]);
+          }
+
+          fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+              resolve(data.query.search);
+            });
+        });
+      },
+      getResultValue(result) {
+        return result.title;
+      },
+
+      // Open the selected article in
+      // a new window
+      onSubmit(result) {
+        window.open(`${wikiUrl}/wiki/${encodeURI(result.title)}`);
+      },
+    };
+  },
 };
 </script>
 
@@ -70,7 +110,10 @@ export default {
         line-height: 24px;
       }
 
-      input{
+      .main__catalog-input{
+      }
+
+      .autocomplete{
         border: 1px solid #ECEFF1;
         position: absolute;
         width: 526px;
