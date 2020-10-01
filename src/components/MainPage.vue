@@ -15,11 +15,12 @@
         </div>
         <div class="main__catalog-input">
           <autocomplete :search="search"
-                        class="autocomplete"
+                        tag="input"
+                        class="autocomplete-input"
                         auto-select
                         :debounce-time="500"
                         :get-result-value="getResultValue"
-                        type="search" name="search" placeholder="Хочу найти"></autocomplete>
+                        type="search" name="search" placeholder="Хочу найти"/>
           <img class="main__img-search" src="@/assets/search.svg" alt="icon for search">
         </div>
         <div class="main__catalog-list">
@@ -35,14 +36,14 @@
 </template>
 
 <script>
-import Autocomplete from '@trevoreyre/autocomplete-vue';
+// import Autocomplete from '@trevoreyre/autocomplete-vue';
 
 const wikiUrl = 'https://en.wikipedia.org';
 const params = 'action=query&list=search&format=json&origin=*';
 
 export default {
   name: 'MainPage',
-  components: { Autocomplete },
+  // components: { Autocomplete },
   data() {
     return {
       search(input) {
@@ -113,7 +114,7 @@ export default {
       .main__catalog-input{
       }
 
-      .autocomplete{
+      .autocomplete-input{
         border: 1px solid #ECEFF1;
         position: absolute;
         width: 526px;
